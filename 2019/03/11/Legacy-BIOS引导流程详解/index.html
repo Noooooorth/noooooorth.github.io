@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5">
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32-next.ico?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16-next.ico?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: true,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="虽然传统BIOS（Legacy BIOS）已经逐渐被UEFI BIOS取代，但是对传统BIOS的深入了解，也将有助于我们更好地理解UEFI BIOS、了解Linux的设计理念。在下文中我们将传统BIOS直接简称为BIOS。  概述 下图为BIOS的引导流程。  在系统首次被引导或者重置时，处理器会首先执行一段位置已知的代码。通常这段代码保存在基本输入/输出系统（BIOS，Basic Input/O">
+<meta name="keywords" content="Linux,BIOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Legacy BIOS引导流程详解">
+<meta property="og:url" content="https://luminizeh.com/2019/03/11/Legacy-BIOS引导流程详解/index.html">
+<meta property="og:site_name" content="LuminizeH&#39;s Blog">
+<meta property="og:description" content="虽然传统BIOS（Legacy BIOS）已经逐渐被UEFI BIOS取代，但是对传统BIOS的深入了解，也将有助于我们更好地理解UEFI BIOS、了解Linux的设计理念。在下文中我们将传统BIOS直接简称为BIOS。  概述 下图为BIOS的引导流程。  在系统首次被引导或者重置时，处理器会首先执行一段位置已知的代码。通常这段代码保存在基本输入/输出系统（BIOS，Basic Input/O">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://ww1.sinaimg.cn/large/007iUjdily1g0vj1783jpg30ep08c748.gif">
+<meta property="og:image" content="https://ww1.sinaimg.cn/large/007i4MEmgy1g0xyerhh6rg30db0d1glp.gif">
+<meta property="og:image" content="https://ww1.sinaimg.cn/large/007i4MEmgy1g0xwsgcivzj30t20kcn0x.jpg">
+<meta property="og:image" content="https://ww1.sinaimg.cn/large/007i4MEmgy1g0xy2lgwtqj30t80o0afj.jpg">
+<meta property="og:image" content="https://ww1.sinaimg.cn/large/007i4MEmgy1g0yog26cwfj31hd1hs47d.jpg">
+<meta property="og:updated_time" content="2019-04-10T10:05:44.313Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Legacy BIOS引导流程详解">
+<meta name="twitter:description" content="虽然传统BIOS（Legacy BIOS）已经逐渐被UEFI BIOS取代，但是对传统BIOS的深入了解，也将有助于我们更好地理解UEFI BIOS、了解Linux的设计理念。在下文中我们将传统BIOS直接简称为BIOS。  概述 下图为BIOS的引导流程。  在系统首次被引导或者重置时，处理器会首先执行一段位置已知的代码。通常这段代码保存在基本输入/输出系统（BIOS，Basic Input/O">
+<meta name="twitter:image" content="https://ww1.sinaimg.cn/large/007iUjdily1g0vj1783jpg30ep08c748.gif">
+
+
+
+
+
+
+  <link rel="canonical" href="https://luminizeh.com/2019/03/11/Legacy-BIOS引导流程详解/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Legacy BIOS引导流程详解 | LuminizeH's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LuminizeH's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-photos">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/photos/" rel="section"><i class="menu-item-icon fa fa-fw fa-image"></i> <br>图片</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://luminizeh.com/2019/03/11/Legacy-BIOS引导流程详解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="LuminizeH">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://q1.qlogo.cn/g?b=qq&nk=747614311&s=640">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LuminizeH's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Legacy BIOS引导流程详解
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-11 11:10:42" itemprop="dateCreated datePublished" datetime="2019-03-11T11:10:42+08:00">2019-03-11</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-10 18:05:44" itemprop="dateModified" datetime="2019-04-10T18:05:44+08:00">2019-04-10</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>虽然传统BIOS（Legacy BIOS）已经逐渐被UEFI BIOS取代，但是对传统BIOS的深入了解，也将有助于我们更好地理解UEFI BIOS、了解Linux的设计理念。在下文中我们将传统BIOS直接简称为BIOS。</p>
+<h2 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h2>
+<p>下图为BIOS的引导流程。</p>
+<p><img src="https://ww1.sinaimg.cn/large/007iUjdily1g0vj1783jpg30ep08c748.gif" alt></p>
+<p>在系统首次被引导或者重置时，处理器会首先执行一段位置已知的代码。通常这段代码保存在基本输入/输出系统（BIOS，Basic Input/Output System）中，或者由CPU调用重置向量来进行寻址。</p>
+<p>在找到引导设备后，第一阶段的引导加载程序（Boot Loader）就被装入RAM执行。第一阶段引导加载程序的主要作用是找到第二阶段的引导加载程序。</p>
+<p>第二阶段的引导加载程序被执行时，会显示用户界面，从命令行到GUI各式各样，并将Linux内核和可选的初始RAM磁盘（initrd）加载到内存。第二阶段的控制权会被交给内核，然后由内核进行解压和初始化。在这个阶段中，第二阶段的引导加载程序会检测系统硬件、枚举系统链接的硬件设备、挂载根设备，然后加载必要的内核模块。</p>
+<p>然后启动第一个用户空间程序-init，并执行高级系统初始化工作。</p>
+<h2 id="系统启动"><a class="markdownIt-Anchor" href="#系统启动"></a> 系统启动</h2>
+<p>在PC平台引导时，BIOS的第一步是加电自检（Power On Self Test，POST），对硬件进行检测，用于检查设备是否良好。</p>
+<p>然后是初始化，包括创建中断向量、设置寄存器、对外部设备的初始化和检测。</p>
+<p>最后对本地设备的枚举，用以寻找引导设备，BIOS 运行时会按照 CMOS 的设置定义的顺序来搜索处于活动状态并且可以引导的设备。引导设备可以是软盘、CD-ROM、硬盘上的某个分区、网络上的某个设备，甚至是 USB 闪存。当检测到有引导设备满足要求后，BIOS将控制权交给相应引导设备。</p>
+<h2 id="引导加载程序"><a class="markdownIt-Anchor" href="#引导加载程序"></a> 引导加载程序</h2>
+<p>由于BIOS只能访问很少的数据量，所以大部分引导加载程序分为两个阶段。在引导的第一阶段中，BIOS引导一部分引导加载程序，即初始程序加载程序（Initial Program loader，IPL）。IPL查询分区表，从而加载位于不同介质上的数据，进而定位第二阶段的引导加载程序，最终将控制权交给后者。</p>
+<p>第二阶段的引导加载程序通常被认为是引导加载程序的主体，它负责用户界面和内核引导等重要功能。</p>
+<p>我们将第一阶段的引导加载程序称为<strong>主引导加载程序</strong>，将第二阶段的引导加载程序称为<strong>次引导加载程序</strong>。</p>
+<h3 id="第一阶段引导加载程序"><a class="markdownIt-Anchor" href="#第一阶段引导加载程序"></a> 第一阶段引导加载程序</h3>
+<p>通常情况下，Linux是从硬盘上的主引导记录（Master Boot Record，MBR）中存放的引导加载程序开始引导的。</p>
+<p>MBR是一个512字节大小的扇区，位于磁盘的第一个扇区中，每块硬盘都有一个MBR，它在硬盘上的三维地址为（柱面，磁头，扇区）＝（0，0，1）。其中包含程序代码和一个分区表。MBR分区结构如下图所示。</p>
+<p><img src="https://ww1.sinaimg.cn/large/007i4MEmgy1g0xyerhh6rg30db0d1glp.gif" alt></p>
+<p><img src="https://ww1.sinaimg.cn/large/007i4MEmgy1g0xwsgcivzj30t20kcn0x.jpg" alt></p>
+<ul>
+<li>
+<p><strong>启动代码区</strong>：前446字节是是主引导加载程序，包括可执行代码和错误消息文本（有时也将开头的前446字节称作MBR，但在本文中我们还是将前512字节称作MBR），代码主要功能是检查分区表是否有效，以及<strong>查找并加载次引导加载程序</strong>（如LILO、GRUB等），并转交控制权。</p>
+<p>​	它先查找<strong>活动的主分区</strong>，并检查其他分区，确保该分区是<strong>唯一活动的主分区</strong>，其他分区都是不活动的，然后将该分区的引导记录从设备读入RAM并执行。这个过程不依赖于任何操作系统，且启动代码也是可以改变的，因而可以实现多系统引导。如果将一个操作系统单独地安装到逻辑分区上，是无法引导的，但如果作为双系统的话，是可以将第二个系统放到逻辑分区上。</p>
+</li>
+<li>
+<p><strong>硬盘分区表（Disk Partition Table， DPT）</strong>：然后是64字节的分区表，包含4个分区的记录，每条记录16字节，包含分区的状态、起始结束的地址、相对扇区号、总扇区数等信息。分区结构信息表如下图所示。</p>
+<p><img src="https://ww1.sinaimg.cn/large/007i4MEmgy1g0xy2lgwtqj30t80o0afj.jpg" alt></p>
+<p>由于每条分区记录都只有16字节，所以磁盘的分区也变得很受限制。分区的相对扇区号和扇区数都只有4字节，这就限制了MBR型分区结构的硬盘大小只能控制在2TB（2<sup>32</sup>×512 ＝ 2,199,023,255,552字节），受CHS寻址方式的限制，起始扇区也必须在前2TB内。</p>
+<p>由于只预留了4条分区记录的空间，所以MBR型分区结构的硬盘只能识别4个<strong>主分区</strong>，这就引出了<strong>逻辑分区</strong>的概念，在本文中不再赘述。</p>
+</li>
+<li>
+<p><strong>结束标志字</strong>：最后MBR以两个特殊的数字字节0x55AA结束，用以检查MBR的有效性。</p>
+</li>
+</ul>
+<p>MBR结构就是由上述3个部分组成。其从系统启动阶段到读取流程如下：</p>
+<p>（1）BIOS加电自检。</p>
+<p>（2）读取MBR。BIOS按照CMOS设置的顺序检测可用的启动设备，将启动设备的第一个扇区，也就是MBR扇区读入内存。</p>
+<p>（3）检查MBR。BIOS检查MBR，检查包括结束标志位、是否有写保护等，如果当前设备不满足启动要求，则尝试下一个设备，重复（3）（4）。</p>
+<p>（4）检测到有合适的启动设备时，BIOS移交控制权。启动设备的MBR将自己复制到内存中，然后继续执行MBR中的代码。</p>
+<p>（5）根据MBR中的引导代码启动引导程序。</p>
+<h3 id="第二阶段引导加载程序"><a class="markdownIt-Anchor" href="#第二阶段引导加载程序"></a> 第二阶段引导加载程序</h3>
+<p>次引导加载程序是引导加载程序真正的核心部分，这个阶段的任务是加载Linux内核和可选的初始RAM磁盘。在 PC 环境中，第一阶段和第二阶段的引导加载程序一起称为 Linux Loader（LILO）或 GRand Unified Bootloader（GRUB）。GRUB克服了LILO的诸多缺点，所以在这里只研究GRUB。</p>
+<p>在MBR中。引导代码最多只能占446字节，这对于像LILO、GRUB这种复杂的引导程序来说就显得太小，所以这里用到了多级引导的概念。</p>
+<p><strong>Stage 1</strong></p>
+<p>将GRUB安装到MBR时，实际上只是将GRUB的stage 1（第一阶段引导加载程序）放入了MBR的代码区，Stage 1的任务是通过加载磁盘起始处附近从一个固定地址开始的一些扇区来加载GRUB的下一阶段，即stage 1.5或stage 2。</p>
+<p><strong>Stage 1.5</strong></p>
+<p>Stage 1.5是stage 1和stage 2的中间桥梁。Stage 1.5包含在MBR后的30千字节中，stage 1.5的作用是加载stage 2。Stage 1.5包含了具体的文件系统驱动，该驱动允许stage 1.5直接加载位于文件系统/boot/grub下的stage 2，将后者装入内存并执行。</p>
+<p><strong>Stage 2</strong></p>
+<p>Stage 2加载配置文件，根据配置文件，选择性地呈现一个界面让用户选择要启动的操作系统内核。用户可以选择启动内核甚至修改附加内核参数，也可以使用命令行对引导过程进行手动控制。选择完成后，会加载内核映像和initrd映像到内存中。然后GRUB将控制权转交给内核，其工作至此也完成。</p>
+<h2 id="内核"><a class="markdownIt-Anchor" href="#内核"></a> 内核</h2>
+<p>内核被加载到内存，GRUB将控制权释放后，内核阶段就开始了。</p>
+<p>内核映像不是一个可执行的内核，而是一个压缩过的内核映像，它的格式通常是zImage（小于512KB，适用于小内核）或bzImage（Big zImage，大于512KB，适用于大内核）。</p>
+<p>内核映像的前面是一个例程，它实现少量硬件设置，并对内核映像中包含的内核（注意区分内核映像和内核）进行解压，然后将其放入高端内存中，如果有初始 RAM 磁盘映像，就会将它移动到内存中，并标明以后使用。然后该例程会调用内核，并开始启动内核引导的过程。</p>
+<p>在引导过程中，初始RAM磁盘（initrd）是在stage 2中被加载到内存中的，它会被复制到RAM并被挂载到系统上。这个initrd会作为RAM中的临时根文件系统使用，允许内核在没有挂载任何物理磁盘的情况下完整地实现引导。initrd的最初的目的是为了把内核的引导分成两个阶段：在内核中保留最少最基本的引导代码，然后把对各种各样硬件设备的支持以模块的方式放在initrd中，这样就在启动过程中可以initrd临时根文件系统中装载需要的模块。这样的一个好处就是在保持内核不变的情况下，通过修改initrd中的内容就可以灵活的支持不同的硬件，而不需要每次都重新编译内核，因而内核可以做到非常小。</p>
+<p>在内核引导完成之后，initrd根文件系统将会被卸载，并挂载真正的根文件系统。</p>
+<h2 id="init"><a class="markdownIt-Anchor" href="#init"></a> Init</h2>
+<p>当内核被引导和进行初始化之后，内核就可以启动自己的第一个用户态程序了。在多数Linux中，这个程序通常是/sbin/init。由init开始，计算机就进入了系统初始化阶段。在系统初始化的方法繁多，但已经不在本文的研究范畴了。</p>
+<p>最后附上一张个人认为比较完整的Linux系统启动流程图（<a href="https://blog.51cto.com/zhang789/1851675" target="_blank" rel="noopener">出处</a>）。</p>
+<p><img src="https://ww1.sinaimg.cn/large/007i4MEmgy1g0yog26cwfj31hd1hs47d.jpg" alt></p>
+<p><strong>参考：</strong></p>
+<ul>
+<li><a href="https://www.ibm.com/developerworks/cn/linux/l-linuxboot/" target="_blank" rel="noopener">Linux 引导过程内幕</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%E4%B8%BB%E5%BC%95%E5%AF%BC%E8%AE%B0%E5%BD%95" target="_blank" rel="noopener">主引导记录 - 维基百科，自由的百科全书</a></li>
+<li><a href="https://www.ibm.com/developerworks/cn/linux/l-bootload.html" target="_blank" rel="noopener">引导加载程序之争：了解 LILO 和 GRUB</a></li>
+<li><a href="https://blog.51cto.com/zhang789/1851675" target="_blank" rel="noopener">Linux启动流程和grub详解-家住海边喜欢浪-51CTO博客</a></li>
+<li><a href="http://kodango.com/three-stage-grub-boot" target="_blank" rel="noopener">Grub 加载系统的三个阶段 - 团子的小窝</a></li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+      <div>
+        
+
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>LuminizeH</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="https://luminizeh.com/2019/03/11/Legacy-BIOS引导流程详解/" title="Legacy BIOS引导流程详解">https://luminizeh.com/2019/03/11/Legacy-BIOS引导流程详解/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+            <a href="/tags/BIOS/" rel="tag"># BIOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/10/Shell脚本命令行参数解析工具：getopts/" rel="next" title="Shell脚本命令行参数解析工具：getopts">
+                <i class="fa fa-chevron-left"></i> Shell脚本命令行参数解析工具：getopts
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="gitalk-container">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://q1.qlogo.cn/g?b=qq&nk=747614311&s=640" alt="LuminizeH">
+            
+              <p class="site-author-name" itemprop="name">LuminizeH</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="/atom.xml" title="RSS &rarr; /atom.xml"><i class="fa fa-fw fa-rss"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/noooooorth" title="GitHub &rarr; https://github.com/noooooorth" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="mailto:aellenf77@gmail.com" title="E-Mail &rarr; mailto:aellenf77@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/5015021638" title="Weibo &rarr; https://weibo.com/5015021638" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://instagram.com/xxheheheyy" title="Instagram &rarr; https://instagram.com/xxheheheyy" rel="noopener" target="_blank"><i class="fa fa-fw fa-instagram"></i></a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://xingw-xiong.ac.cn/" title="https://xingw-xiong.ac.cn/" rel="noopener" target="_blank">XW.Xiong</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/helios741/myblog" title="https://github.com/helios741/myblog" rel="noopener" target="_blank">Helios</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统启动"><span class="nav-number">2.</span> <span class="nav-text"> 系统启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引导加载程序"><span class="nav-number">3.</span> <span class="nav-text"> 引导加载程序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一阶段引导加载程序"><span class="nav-number">3.1.</span> <span class="nav-text"> 第一阶段引导加载程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二阶段引导加载程序"><span class="nav-number">3.2.</span> <span class="nav-text"> 第二阶段引导加载程序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内核"><span class="nav-number">4.</span> <span class="nav-text"> 内核</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#init"><span class="nav-number">5.</span> <span class="nav-text"> Init</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LuminizeH</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script id="ribbon" size="100" alpha="0.6" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=7.0.1"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=7.0.1"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+
+  
+    
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+
+
+<script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: 'd4f9dab06c84ea25351d',
+    clientSecret: 'b298591f129222810d6ba1da1b01fdccdfb9bd56',
+    repo: 'noooooorth.github.io',
+    owner: 'Noooooorth',
+    admin: ['Noooooorth'],
+    id: md5(location.pathname),
+    
+      language: window.navigator.language || window.navigator.userLanguage,
+    
+    distractionFreeMode: 'true'
+  });
+  gitalk.render('gitalk-container');
+</script>
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

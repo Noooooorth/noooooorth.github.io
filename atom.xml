@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>LuminizeH&#39;s Blog</title>
+  
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://luminizeh.com/"/>
+  <updated>2019-04-10T10:05:44.313Z</updated>
+  <id>https://luminizeh.com/</id>
+  
+  <author>
+    <name>LuminizeH</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Legacy BIOS引导流程详解</title>
+    <link href="https://luminizeh.com/2019/03/11/Legacy-BIOS%E5%BC%95%E5%AF%BC%E6%B5%81%E7%A8%8B%E8%AF%A6%E8%A7%A3/"/>
+    <id>https://luminizeh.com/2019/03/11/Legacy-BIOS引导流程详解/</id>
+    <published>2019-03-11T03:10:42.000Z</published>
+    <updated>2019-04-10T10:05:44.313Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          
+        
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="https://luminizeh.com/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="https://luminizeh.com/tags/Linux/"/>
+    
+      <category term="BIOS" scheme="https://luminizeh.com/tags/BIOS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Shell脚本命令行参数解析工具：getopts</title>
+    <link href="https://luminizeh.com/2019/03/10/Shell%E8%84%9A%E6%9C%AC%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90%E5%B7%A5%E5%85%B7%EF%BC%9Agetopts/"/>
+    <id>https://luminizeh.com/2019/03/10/Shell脚本命令行参数解析工具：getopts/</id>
+    <published>2019-03-10T07:49:54.000Z</published>
+    <updated>2019-04-10T10:05:44.313Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          
+        
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="https://luminizeh.com/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="https://luminizeh.com/tags/Linux/"/>
+    
+      <category term="Shell" scheme="https://luminizeh.com/tags/Shell/"/>
+    
+      <category term="Bash" scheme="https://luminizeh.com/tags/Bash/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Proxmox VE镜像分析与定制</title>
+    <link href="https://luminizeh.com/2019/03/07/Proxmox-VE%E9%95%9C%E5%83%8F%E5%88%86%E6%9E%90%E4%B8%8E%E5%AE%9A%E5%88%B6/"/>
+    <id>https://luminizeh.com/2019/03/07/Proxmox-VE镜像分析与定制/</id>
+    <published>2019-03-07T10:51:04.000Z</published>
+    <updated>2019-04-10T10:05:44.313Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          
+        
+      
+    
+    </summary>
+    
+      <category term="虚拟化" scheme="https://luminizeh.com/categories/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
+    
+    
+      <category term="Linux" scheme="https://luminizeh.com/tags/Linux/"/>
+    
+      <category term="Proxmox VE" scheme="https://luminizeh.com/tags/Proxmox-VE/"/>
+    
+      <category term="虚拟化" scheme="https://luminizeh.com/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="https://luminizeh.com/2019/03/07/hello-world/"/>
+    <id>https://luminizeh.com/2019/03/07/hello-world/</id>
+    <published>2019-03-07T07:44:00.000Z</published>
+    <updated>2019-04-10T10:05:44.313Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          
+        
+      
+    
+    </summary>
+    
+      <category term="其他" scheme="https://luminizeh.com/categories/%E5%85%B6%E4%BB%96/"/>
+    
+    
+      <category term="Hexo" scheme="https://luminizeh.com/tags/Hexo/"/>
+    
+  </entry>
+  
+</feed>
