@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://luminizeh.com/"/>
-  <updated>2019-04-10T10:05:44.313Z</updated>
+  <updated>2019-04-10T12:01:20.594Z</updated>
   <id>https://luminizeh.com/</id>
   
   <author>
@@ -15,6 +15,46 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>shell分析</title>
+    <link href="https://luminizeh.com/2019/04/10/shell%E5%88%86%E6%9E%90/"/>
+    <id>https://luminizeh.com/2019/04/10/shell分析/</id>
+    <published>2019-04-10T12:01:20.000Z</published>
+    <updated>2019-04-10T12:01:20.594Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>2019年4月北邮人论坛十大热门贴.md</title>
+    <link href="https://luminizeh.com/2019/04/10/2019%E5%B9%B44%E6%9C%88%E5%8C%97%E9%82%AE%E4%BA%BA%E8%AE%BA%E5%9D%9B%E5%8D%81%E5%A4%A7%E7%83%AD%E9%97%A8%E8%B4%B4/"/>
+    <id>https://luminizeh.com/2019/04/10/2019年4月北邮人论坛十大热门贴/</id>
+    <published>2019-04-10T11:57:40.000Z</published>
+    <updated>2019-04-10T11:57:40.350Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          
+        
+      
+    
+    </summary>
+    
+      <category term="其他" scheme="https://luminizeh.com/categories/%E5%85%B6%E4%BB%96/"/>
+    
+    
+      <category term="Hexo" scheme="https://luminizeh.com/tags/Hexo/"/>
+    
+  </entry>
   
   <entry>
     <title>Legacy BIOS引导流程详解</title>
