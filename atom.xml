@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://luminizeh.com/"/>
-  <updated>2019-04-11T01:25:43.475Z</updated>
+  <updated>2019-04-11T12:06:21.741Z</updated>
   <id>https://luminizeh.com/</id>
   
   <author>
@@ -18,20 +18,17 @@
   
   <entry>
     <title>2019年4月北邮人论坛十大热门贴.md</title>
-    <link href="https://luminizeh.com/2019/04/10/2019%E5%B9%B44%E6%9C%88%E5%8C%97%E9%82%AE%E4%BA%BA%E8%AE%BA%E5%9D%9B%E5%8D%81%E5%A4%A7%E7%83%AD%E9%97%A8%E8%B4%B4/"/>
-    <id>https://luminizeh.com/2019/04/10/2019年4月北邮人论坛十大热门贴/</id>
-    <published>2019-04-10T11:57:40.000Z</published>
-    <updated>2019-04-11T01:25:43.475Z</updated>
+    <link href="https://luminizeh.com/2019/04/11/2019%E5%B9%B44%E6%9C%88%E5%8C%97%E9%82%AE%E4%BA%BA%E8%AE%BA%E5%9D%9B%E5%8D%81%E5%A4%A7%E7%83%AD%E9%97%A8%E8%B4%B4/"/>
+    <id>https://luminizeh.com/2019/04/11/2019年4月北邮人论坛十大热门贴/</id>
+    <published>2019-04-11T12:06:21.000Z</published>
+    <updated>2019-04-11T12:06:21.741Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          
-        
-      
+      &lt;p&gt;&lt;ul class=&quot;markdownIt-TOC&quot;&gt;
+&lt;li&gt;&lt;a href=&quot;#2019%E5%B9%B44%E6%9C%8811%E6%97%A5&quot;&gt;2019年4月11日&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt;
     
     </summary>
     
@@ -47,17 +44,11 @@
     <link href="https://luminizeh.com/2019/03/11/Legacy-BIOS%E5%BC%95%E5%AF%BC%E6%B5%81%E7%A8%8B%E8%AF%A6%E8%A7%A3/"/>
     <id>https://luminizeh.com/2019/03/11/Legacy-BIOS引导流程详解/</id>
     <published>2019-03-11T03:10:42.000Z</published>
-    <updated>2019-04-10T10:05:44.313Z</updated>
+    <updated>2019-04-11T01:49:52.365Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          
-        
-      
+      &lt;p&gt;虽然传统BIOS（Legacy BIOS）已经逐渐被UEFI BIOS取代，但是对传统BIOS的深入了解，也将有助于我们更好地理解UEFI BIOS、了解Linux的设计理念。在下文中我们将传统BIOS直接简称为BIOS。&lt;/p&gt;
     
     </summary>
     
@@ -75,17 +66,11 @@
     <link href="https://luminizeh.com/2019/03/10/Shell%E8%84%9A%E6%9C%AC%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90%E5%B7%A5%E5%85%B7%EF%BC%9Agetopts/"/>
     <id>https://luminizeh.com/2019/03/10/Shell脚本命令行参数解析工具：getopts/</id>
     <published>2019-03-10T07:49:54.000Z</published>
-    <updated>2019-04-10T10:05:44.313Z</updated>
+    <updated>2019-04-11T01:49:52.365Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          
-        
-      
+      &lt;p&gt;在处理bash脚本时，简单参数可以用$1、$2来处理，遇到需要分析复杂参数的时候，bash内建命令getopts就是一个不错的选择（也可以使用独立的可执行文件getopt）。&lt;/p&gt;
     
     </summary>
     
@@ -105,17 +90,18 @@
     <link href="https://luminizeh.com/2019/03/07/Proxmox-VE%E9%95%9C%E5%83%8F%E5%88%86%E6%9E%90%E4%B8%8E%E5%AE%9A%E5%88%B6/"/>
     <id>https://luminizeh.com/2019/03/07/Proxmox-VE镜像分析与定制/</id>
     <published>2019-03-07T10:51:04.000Z</published>
-    <updated>2019-04-10T10:05:44.313Z</updated>
+    <updated>2019-04-11T01:49:52.365Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          
-        
-      
+      &lt;p&gt;Proxmox VE（Proxmox Virtual Environment，简称PVE）是一个开源的服务器虚拟化环境Linux发行版，基于Debian，使用给予Ubuntu的定制内核。相比于其他虚拟化平台，PVE具有的一个显著的特点就是无需master节点，安装完成后，无需特殊配制即可将多个节点组成集群。&lt;/p&gt;
+&lt;p&gt;由于工程要求，PVE需要大规模部署在物理服务器上，所以定制镜像就显得很有必要。&lt;/p&gt;
+&lt;p&gt;定制目标包括&lt;/p&gt;
+&lt;p&gt;（1）修改initrd中init脚本的提示信息&lt;/p&gt;
+&lt;p&gt;（2）删除GRUB界面多余选项，直接进入安装界面&lt;/p&gt;
+&lt;p&gt;（3）添加预装软件&lt;/p&gt;
+&lt;p&gt;（4）在安装过程中对软件进行个性化配置&lt;/p&gt;
+&lt;p&gt;（5）修改PVE安装界面，在PVE安装界面中的所有输入框设置默认文本&lt;/p&gt;
     
     </summary>
     
@@ -135,17 +121,11 @@
     <link href="https://luminizeh.com/2019/03/07/hello-world/"/>
     <id>https://luminizeh.com/2019/03/07/hello-world/</id>
     <published>2019-03-07T07:44:00.000Z</published>
-    <updated>2019-04-10T10:05:44.313Z</updated>
+    <updated>2019-04-11T01:49:52.365Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          
-        
-      
+      &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;documentation&lt;/a&gt; for more info. If you get any problems when using Hexo, you can find the answer in &lt;a href=&quot;https://hexo.io/docs/troubleshooting.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;troubleshooting&lt;/a&gt; or you can ask me on &lt;a href=&quot;https://github.com/hexojs/hexo/issues&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
     
     </summary>
     
