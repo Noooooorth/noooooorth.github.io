@@ -117,16 +117,16 @@
 <meta property="og:site_name" content="LuminizeH&#39;s Blog">
 <meta property="og:description" content="虽然传统BIOS（Legacy BIOS）已经逐渐被UEFI BIOS取代，但是对传统BIOS的深入了解，也将有助于我们更好地理解UEFI BIOS、了解Linux的设计理念。在下文中我们将传统BIOS直接简称为BIOS。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://ww1.sinaimg.cn/large/007iUjdily1g0vj1783jpg30ep08c748.gif">
-<meta property="og:image" content="https://ww1.sinaimg.cn/large/007i4MEmgy1g0xyerhh6rg30db0d1glp.gif">
-<meta property="og:image" content="https://ww1.sinaimg.cn/large/007i4MEmgy1g0xwsgcivzj30t20kcn0x.jpg">
-<meta property="og:image" content="https://ww1.sinaimg.cn/large/007i4MEmgy1g0xy2lgwtqj30t80o0afj.jpg">
-<meta property="og:image" content="https://ww1.sinaimg.cn/large/007i4MEmgy1g0yog26cwfj31hd1hs47d.jpg">
-<meta property="og:updated_time" content="2019-04-11T01:49:52.365Z">
+<meta property="og:image" content="https://ae01.alicdn.com/kf/HTB1BAtXK4TpK1RjSZFM5jbG_VXak.gif">
+<meta property="og:image" content="https://ae01.alicdn.com/kf/HTB16t_pLmzqK1RjSZPc5jbTepXat.gif">
+<meta property="og:image" content="https://ae01.alicdn.com/kf/HTB1yNLSLXzqK1RjSZFoq6zfcXXaz.jpg">
+<meta property="og:image" content="https://ae01.alicdn.com/kf/HTB1NrzYLmzqK1RjSZFjq6zlCFXaM.jpg">
+<meta property="og:image" content="https://ae01.alicdn.com/kf/HTB1P6NwLxTpK1RjSZFMq6zG_VXa6.jpg">
+<meta property="og:updated_time" content="2019-04-27T13:58:38.696Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Legacy BIOS引导流程详解">
 <meta name="twitter:description" content="虽然传统BIOS（Legacy BIOS）已经逐渐被UEFI BIOS取代，但是对传统BIOS的深入了解，也将有助于我们更好地理解UEFI BIOS、了解Linux的设计理念。在下文中我们将传统BIOS直接简称为BIOS。">
-<meta name="twitter:image" content="https://ww1.sinaimg.cn/large/007iUjdily1g0vj1783jpg30ep08c748.gif">
+<meta name="twitter:image" content="https://ae01.alicdn.com/kf/HTB1BAtXK4TpK1RjSZFM5jbG_VXak.gif">
 
 
 
@@ -465,7 +465,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-11 09:49:52" itemprop="dateModified" datetime="2019-04-11T09:49:52+08:00">2019-04-11</time>
+                <time title="修改时间：2019-04-27 21:58:38" itemprop="dateModified" datetime="2019-04-27T21:58:38+08:00">2019-04-27</time>
               
             
           </span>
@@ -521,7 +521,7 @@
 <a id="more"></a>
 <h2 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h2>
 <p>下图为BIOS的引导流程。</p>
-<p><img src="https://ww1.sinaimg.cn/large/007iUjdily1g0vj1783jpg30ep08c748.gif" alt></p>
+<p><img src="https://ae01.alicdn.com/kf/HTB1BAtXK4TpK1RjSZFM5jbG_VXak.gif" alt></p>
 <p>在系统首次被引导或者重置时，处理器会首先执行一段位置已知的代码。通常这段代码保存在基本输入/输出系统（BIOS，Basic Input/Output System）中，或者由CPU调用重置向量来进行寻址。</p>
 <p>在找到引导设备后，第一阶段的引导加载程序（Boot Loader）就被装入RAM执行。第一阶段引导加载程序的主要作用是找到第二阶段的引导加载程序。</p>
 <p>第二阶段的引导加载程序被执行时，会显示用户界面，从命令行到GUI各式各样，并将Linux内核和可选的初始RAM磁盘（initrd）加载到内存。第二阶段的控制权会被交给内核，然后由内核进行解压和初始化。在这个阶段中，第二阶段的引导加载程序会检测系统硬件、枚举系统链接的硬件设备、挂载根设备，然后加载必要的内核模块。</p>
@@ -537,8 +537,8 @@
 <h3 id="第一阶段引导加载程序"><a class="markdownIt-Anchor" href="#第一阶段引导加载程序"></a> 第一阶段引导加载程序</h3>
 <p>通常情况下，Linux是从硬盘上的主引导记录（Master Boot Record，MBR）中存放的引导加载程序开始引导的。</p>
 <p>MBR是一个512字节大小的扇区，位于磁盘的第一个扇区中，每块硬盘都有一个MBR，它在硬盘上的三维地址为（柱面，磁头，扇区）＝（0，0，1）。其中包含程序代码和一个分区表。MBR分区结构如下图所示。</p>
-<p><img src="https://ww1.sinaimg.cn/large/007i4MEmgy1g0xyerhh6rg30db0d1glp.gif" alt></p>
-<p><img src="https://ww1.sinaimg.cn/large/007i4MEmgy1g0xwsgcivzj30t20kcn0x.jpg" alt></p>
+<p><img src="https://ae01.alicdn.com/kf/HTB16t_pLmzqK1RjSZPc5jbTepXat.gif" alt></p>
+<p><img src="https://ae01.alicdn.com/kf/HTB1yNLSLXzqK1RjSZFoq6zfcXXaz.jpg" alt></p>
 <ul>
 <li>
 <p><strong>启动代码区</strong>：前446字节是是主引导加载程序，包括可执行代码和错误消息文本（有时也将开头的前446字节称作MBR，但在本文中我们还是将前512字节称作MBR），代码主要功能是检查分区表是否有效，以及<strong>查找并加载次引导加载程序</strong>（如LILO、GRUB等），并转交控制权。</p>
@@ -546,13 +546,13 @@
 </li>
 <li>
 <p><strong>硬盘分区表（Disk Partition Table， DPT）</strong>：然后是64字节的分区表，包含4个分区的记录，每条记录16字节，包含分区的状态、起始结束的地址、相对扇区号、总扇区数等信息。分区结构信息表如下图所示。</p>
-<p><img src="https://ww1.sinaimg.cn/large/007i4MEmgy1g0xy2lgwtqj30t80o0afj.jpg" alt></p>
+</li>
+</ul>
+<p><img src="https://ae01.alicdn.com/kf/HTB1NrzYLmzqK1RjSZFjq6zlCFXaM.jpg" alt></p>
 <p>由于每条分区记录都只有16字节，所以磁盘的分区也变得很受限制。分区的相对扇区号和扇区数都只有4字节，这就限制了MBR型分区结构的硬盘大小只能控制在2TB（2<sup>32</sup>×512 ＝ 2,199,023,255,552字节），受CHS寻址方式的限制，起始扇区也必须在前2TB内。</p>
 <p>由于只预留了4条分区记录的空间，所以MBR型分区结构的硬盘只能识别4个<strong>主分区</strong>，这就引出了<strong>逻辑分区</strong>的概念，在本文中不再赘述。</p>
-</li>
-<li>
-<p><strong>结束标志字</strong>：最后MBR以两个特殊的数字字节0x55AA结束，用以检查MBR的有效性。</p>
-</li>
+<ul>
+<li><strong>结束标志字</strong>：最后MBR以两个特殊的数字字节0x55AA结束，用以检查MBR的有效性。</li>
 </ul>
 <p>MBR结构就是由上述3个部分组成。其从系统启动阶段到读取流程如下：</p>
 <p>（1）BIOS加电自检。</p>
@@ -578,7 +578,7 @@
 <h2 id="init"><a class="markdownIt-Anchor" href="#init"></a> Init</h2>
 <p>当内核被引导和进行初始化之后，内核就可以启动自己的第一个用户态程序了。在多数Linux中，这个程序通常是/sbin/init。由init开始，计算机就进入了系统初始化阶段。在系统初始化的方法繁多，但已经不在本文的研究范畴了。</p>
 <p>最后附上一张个人认为比较完整的Linux系统启动流程图（<a href="https://blog.51cto.com/zhang789/1851675" target="_blank" rel="noopener">出处</a>）。</p>
-<p><img src="https://ww1.sinaimg.cn/large/007i4MEmgy1g0yog26cwfj31hd1hs47d.jpg" alt></p>
+<p><img src="https://ae01.alicdn.com/kf/HTB1P6NwLxTpK1RjSZFMq6zG_VXa6.jpg" alt></p>
 <p><strong>参考：</strong></p>
 <ul>
 <li><a href="https://www.ibm.com/developerworks/cn/linux/l-linuxboot/" target="_blank" rel="noopener">Linux 引导过程内幕</a></li>
