@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://luminizeh.com/"/>
-  <updated>2020-08-31T15:00:01.794Z</updated>
+  <updated>2020-09-01T15:00:02.038Z</updated>
   <id>https://luminizeh.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>2020年9月北邮人论坛十大热门贴</title>
+    <link href="https://luminizeh.com/2020/09/01/2020%E5%B9%B49%E6%9C%88%E5%8C%97%E9%82%AE%E4%BA%BA%E8%AE%BA%E5%9D%9B%E5%8D%81%E5%A4%A7%E7%83%AD%E9%97%A8%E8%B4%B4/"/>
+    <id>https://luminizeh.com/2020/09/01/2020年9月北邮人论坛十大热门贴/</id>
+    <published>2020-09-01T15:00:02.000Z</published>
+    <updated>2020-09-01T15:00:02.038Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;ul class=&quot;markdownIt-TOC&quot;&gt;
+&lt;li&gt;&lt;a href=&quot;#2020%E5%B9%B49%E6%9C%881%E6%97%A5&quot;&gt;2020年9月1日&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="其他" scheme="https://luminizeh.com/categories/%E5%85%B6%E4%BB%96/"/>
+    
+    
+      <category term="Hexo" scheme="https://luminizeh.com/tags/Hexo/"/>
+    
+  </entry>
   
   <entry>
     <title>2020年8月北邮人论坛十大热门贴</title>
@@ -942,37 +965,6 @@
       <category term="Shell" scheme="https://luminizeh.com/tags/Shell/"/>
     
       <category term="Bash" scheme="https://luminizeh.com/tags/Bash/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Proxmox VE镜像分析与定制</title>
-    <link href="https://luminizeh.com/2019/03/07/Proxmox-VE%E9%95%9C%E5%83%8F%E5%88%86%E6%9E%90%E4%B8%8E%E5%AE%9A%E5%88%B6/"/>
-    <id>https://luminizeh.com/2019/03/07/Proxmox-VE镜像分析与定制/</id>
-    <published>2019-03-07T10:51:04.000Z</published>
-    <updated>2019-04-27T14:00:56.090Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Proxmox VE（Proxmox Virtual Environment，简称PVE）是一个开源的服务器虚拟化环境Linux发行版，基于Debian，使用给予Ubuntu的定制内核。相比于其他虚拟化平台，PVE具有的一个显著的特点就是无需master节点，安装完成后，无需特殊配制即可将多个节点组成集群。&lt;/p&gt;
-&lt;p&gt;由于工程要求，PVE需要大规模部署在物理服务器上，所以定制镜像就显得很有必要。&lt;/p&gt;
-&lt;p&gt;定制目标包括&lt;/p&gt;
-&lt;p&gt;（1）修改initrd中init脚本的提示信息&lt;/p&gt;
-&lt;p&gt;（2）删除GRUB界面多余选项，直接进入安装界面&lt;/p&gt;
-&lt;p&gt;（3）添加预装软件&lt;/p&gt;
-&lt;p&gt;（4）在安装过程中对软件进行个性化配置&lt;/p&gt;
-&lt;p&gt;（5）修改PVE安装界面，在PVE安装界面中的所有输入框设置默认文本&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="虚拟化" scheme="https://luminizeh.com/categories/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
-    
-    
-      <category term="Linux" scheme="https://luminizeh.com/tags/Linux/"/>
-    
-      <category term="Proxmox VE" scheme="https://luminizeh.com/tags/Proxmox-VE/"/>
-    
-      <category term="虚拟化" scheme="https://luminizeh.com/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
     
   </entry>
   
