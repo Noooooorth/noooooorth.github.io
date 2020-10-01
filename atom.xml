@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://luminizeh.com/"/>
-  <updated>2020-09-30T15:00:01.852Z</updated>
+  <updated>2020-10-01T15:00:02.382Z</updated>
   <id>https://luminizeh.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>2020年10月北邮人论坛十大热门贴</title>
+    <link href="https://luminizeh.com/2020/10/01/2020%E5%B9%B410%E6%9C%88%E5%8C%97%E9%82%AE%E4%BA%BA%E8%AE%BA%E5%9D%9B%E5%8D%81%E5%A4%A7%E7%83%AD%E9%97%A8%E8%B4%B4/"/>
+    <id>https://luminizeh.com/2020/10/01/2020年10月北邮人论坛十大热门贴/</id>
+    <published>2020-10-01T15:00:02.000Z</published>
+    <updated>2020-10-01T15:00:02.382Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;ul class=&quot;markdownIt-TOC&quot;&gt;
+&lt;li&gt;&lt;a href=&quot;#2020%E5%B9%B410%E6%9C%881%E6%97%A5&quot;&gt;2020年10月1日&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="其他" scheme="https://luminizeh.com/categories/%E5%85%B6%E4%BB%96/"/>
+    
+    
+      <category term="Hexo" scheme="https://luminizeh.com/tags/Hexo/"/>
+    
+  </entry>
   
   <entry>
     <title>2020年9月北邮人论坛十大热门贴</title>
@@ -968,30 +991,6 @@
       <category term="Linux" scheme="https://luminizeh.com/tags/Linux/"/>
     
       <category term="BIOS" scheme="https://luminizeh.com/tags/BIOS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Shell脚本命令行参数解析工具：getopts</title>
-    <link href="https://luminizeh.com/2019/03/10/Shell%E8%84%9A%E6%9C%AC%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90%E5%B7%A5%E5%85%B7%EF%BC%9Agetopts/"/>
-    <id>https://luminizeh.com/2019/03/10/Shell脚本命令行参数解析工具：getopts/</id>
-    <published>2019-03-10T07:49:54.000Z</published>
-    <updated>2019-04-11T01:49:52.365Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;在处理bash脚本时，简单参数可以用$1、$2来处理，遇到需要分析复杂参数的时候，bash内建命令getopts就是一个不错的选择（也可以使用独立的可执行文件getopt）。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Linux" scheme="https://luminizeh.com/categories/Linux/"/>
-    
-    
-      <category term="Linux" scheme="https://luminizeh.com/tags/Linux/"/>
-    
-      <category term="Shell" scheme="https://luminizeh.com/tags/Shell/"/>
-    
-      <category term="Bash" scheme="https://luminizeh.com/tags/Bash/"/>
     
   </entry>
   
